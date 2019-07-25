@@ -1,5 +1,5 @@
 Flask
 Flask-RESTful
 Flask-JWT
-mysql-connector-pyhton
+mysql-connector-python
 gunicorn
