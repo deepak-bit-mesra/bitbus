@@ -38,11 +38,16 @@ class TTRecordModel():
     def getAllRecord(cls):
         query = "SELECT * FROM timetable"
         try:
+            #print(DbConn.connection.is_connected());
+            DbConn.connection._open_connection()
             cursor = DbConn.connection.cursor(prepared=True)
             cursor.execute(query)
             resultset = cursor.fetchall()
             DbConn.connection.commit()
             cursor.close()
+            DbConn.connection.close()
+            
+            #DbConn.connection._open_connection()
         except:
             return None;
         
