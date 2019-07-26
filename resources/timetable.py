@@ -29,12 +29,12 @@ class TTRecordResource(Resource):
     
     @jwt_required()
     def put(self,idtimetable):
-        record = TTRecordModel.getRecordById(int(idtimetable));
+        record = TTRecordModel.getRecordById(int(idtimetable))
         if record:
             reqestData = TTRecordResource.parser.parse_args()
             record.isRunning = reqestData['isRunning']
             record.hasdeparted = reqestData['hasdeparted']
-            record = record.updateStatus();
+            record = record.updateStatus()
             if record:
                 return {'Message':"Item Updated"} , 200
             else:

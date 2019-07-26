@@ -38,8 +38,8 @@ class TTRecordModel():
     def getAllRecord(cls):
         query = "SELECT * FROM timetable"
         try:
-            #print(DbConn.connection.is_connected());
-            DbConn.connection._open_connection()
+            if(DbConn.connection.is_connected()==False):
+                DbConn.connection._open_connection()
             cursor = DbConn.connection.cursor(prepared=True)
             cursor.execute(query)
             resultset = cursor.fetchall()
@@ -49,7 +49,7 @@ class TTRecordModel():
             
             #DbConn.connection._open_connection()
         except:
-            return None;
+            return None
         
 
 
@@ -62,12 +62,14 @@ class TTRecordModel():
     def getRecordById(cls,idtimetable):
         # query= "SELECT * FROM timetable WHERE frombit = MAKETIME(?,?,?)";
         query = "SELECT * FROM timetable WHERE idtimetable=?"
-        
+        if(DbConn.connection.is_connected()==False):
+            DbConn.connection._open_connection()
         cursor = DbConn.connection.cursor(prepared=True)
         cursor.execute(query,(idtimetable,))
         resultset = cursor.fetchone()
         DbConn.connection.commit()
         cursor.close()
+        DbConn.connection.close()
         
         if resultset:
             result = cls(*resultset)
@@ -78,11 +80,13 @@ class TTRecordModel():
     def updateStatus(self):
         try:
             query = "UPDATE timetable SET hasdeparted=? , isRunning=? WHERE idtimetable=?"
-            
+            if(DbConn.connection.is_connected()==False):
+                DbConn.connection._open_connection()
             cursor = DbConn.connection.cursor(prepared=True)
             cursor.execute(query,(self.hasdeparted,self.isRunning,self.idtimetable))
             DbConn.connection.commit()
             cursor.close()
+            DbConn.connection.close()
             print("updated")
             return True
         except:

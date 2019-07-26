@@ -25,11 +25,14 @@ class UserModel:
     
     @classmethod
     def find_by_param(cls,query,param):
+        if(DbConn.connection.is_connected()==False):
+            DbConn.connection._open_connection()
         cursor = DbConn.connection.cursor(prepared=True)
         cursor.execute(query,(param,))
         resultset = cursor.fetchone()
         DbConn.connection.commit()
         cursor.close()
+        DbConn.connection.close()
 
         if resultset:
             user = cls(*resultset)
