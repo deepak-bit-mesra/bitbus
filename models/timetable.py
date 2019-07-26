@@ -37,12 +37,14 @@ class TTRecordModel():
     @classmethod
     def getAllRecord(cls):
         query = "SELECT * FROM timetable"
-        
-        cursor = DbConn.connection.cursor(prepared=True)
-        cursor.execute(query)
-        resultset = cursor.fetchall()
-        DbConn.connection.commit()
-        cursor.close()
+        try:
+            cursor = DbConn.connection.cursor(prepared=True)
+            cursor.execute(query)
+            resultset = cursor.fetchall()
+            DbConn.connection.commit()
+            cursor.close()
+        except:
+            return None;
         
 
 

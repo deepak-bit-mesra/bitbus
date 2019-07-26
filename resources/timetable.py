@@ -46,7 +46,10 @@ class TTRecordResource(Resource):
 class TTListResource(Resource):
     def get(self):
         lst = TTRecordModel.getAllRecord()
-        return {'res':lst},200
+        if lst!=None:
+            return {'res':lst},200
+        else:
+            return {'Message':'Could Not establish a connectiont to Mysql'}
 
     def post(self,idtimetable):
         pass        
