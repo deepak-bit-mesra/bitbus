@@ -1,8 +1,10 @@
-from flask import Flask,render_template,jsonify
+from flask import Flask,render_template,jsonify,make_response,redirect,url_for
 from flask_restful import Api,Resource,reqparse
 from models.timetable import TTRecordModel
 from flask_jwt import JWT,jwt_required
 from db import DbConn
+from datetime import date,datetime,time
+
 
 
 
@@ -22,6 +24,7 @@ class TTRecordResource(Resource):
     
     def get(self,idtimetable):
         record = TTRecordModel.getRecordById(int(idtimetable))
+        
         if(record):
             return record.tojson(),200
         else:
@@ -47,9 +50,67 @@ class TTListResource(Resource):
     def get(self):
         lst = TTRecordModel.getAllRecord()
         if lst!=None:
-            return {'res':lst},200
+            return {'res':lst},200,{'Access-Control-Allow-Origin':'*'}
+            # TypeError: The view function did not return a valid response tuple. The tuple must have the form (body, status, headers), (body, status), or (body, headers).
+            # responseBody = jsonify({'res':lst})
+            # resp = make_response((responseBody,200))
+            # resp.headers['Access-Control-Allow-Origin'] = '*'
+            # return resp
         else:
             return {'Message':'Could Not establish a connectiont to Mysql'}
 
     def post(self,idtimetable):
         pass        
+
+class  TodayTimeTable(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('source',type=str,required=True,help="Source is Required")
+    parser.add_argument('destination',type=str,required=True,help="Destination is Required")
+    parser.add_argument('curdate',type=str)
+    parser.add_argument('curtime',type=str)
+    def get(self):
+        return TTRecordModel.getRecordByDate_Time_Source(None,None,None);
+    
+    def post(self):
+        try:
+            requestData = TodayTimeTable.parser.parse_args()
+            
+            newlist = TodayTimeTable.getdataByRequestData(requestData)
+            if newlist:
+                return newlist,200
+            else:
+                return {'message':'No data Found'}
+        except:
+            return {"Message":"Bad Request"},500
+    
+
+    @classmethod
+    def getdataByRequestData(cls,requestData):
+        newlist = []
+        if(requestData['source']== "Ranchi") and (requestData['destination']=='BIT'):
+            query = "select * from timetable where fromxavier >= ? and typeofday=? order by fromxavier";
+            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
+            pointsource = 'fromxavier'
+            
+        elif(requestData['source']=='BIT') and (requestData['destination']=='Ranchi'):
+            query = "select * from timetable where frombit >= ? and typeofday=? order by frombit";
+            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
+            pointsource = 'frombit'
+
+        if lst:
+            for x in lst:
+                if len(x[pointsource]) == 7:
+                    x[pointsource] = '0'+ x[pointsource]
+                obj = {
+                    'departure':x[pointsource],
+                    'typeofbus':x['typeofbus'],
+                    'isRunning':x['isRunning'],
+                    'idtimetable':x['idtimetable'],
+                    'hasdeparted':x['hasdeparted']
+                }
+                newlist.append(obj)
+        else:
+            newlist=None
+        return newlist
+
+            

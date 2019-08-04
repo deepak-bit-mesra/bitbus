@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-image: url("../image/BUS.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/* .box {
+    position: absolute;
+    top: 35%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    padding: 40px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 25px 35px rgba(0, 0, 0, .5);
+    border-radius: 6px;
+} */
+
+.box {
+    margin-right: auto;
+    /* position: absolute; */
+    /* top: 35%; */
+    /* align-self: center; */
+    margin-top: 3.2em;
+    width: 50%;
+    width: 100%;
+    max-width: 330px;
+    margin-left: auto;
+    /* left: 25%; */
+    /* transform: translate(-50%, -50%); */
+    /* width: 400px; */
+    background: #fff;
+    padding: 40px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 25px 35px rgba(0, 0, 0, .5);
+    border-radius: 6px;
+}
+
+.box input {
+    padding: 5px 0;
+    margin-bottom: 30px;
+}
+
+.box input {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #999;
+}
+
+.box input[type="submit"] {
+    border-bottom: none;
+    cursor: pointer;
+    background: #f7497d;
+    color: #fff;
+    padding: 8px 16px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    border-radius: 6px;
+}
+
+.box form div {
+    position: relative;
+}
+
+/* .box form div label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #999;
+    pointer-events: none;
+    transition: .5s;
+} */
+
+.box input:focus~label,
+.box input:valid~label {
+    top: -14px;
+    left: 0;
+    color: #f7497d;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.box input:focus,
+.box input:valid {
+    border-bottom: 2px solid #f7497d;
+}

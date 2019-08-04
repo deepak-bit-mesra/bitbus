@@ -1,10 +1,34 @@
 import mysql.connector
 from db import DbConn
+from datetime import date,datetime,time
 
+# def loadHome():
+#     today = date.today()
+#     # days  =["Monday","Tuesday","Wednesday","Thrusday","Friday","Saturday","Sunday"]
+#     # datestr = "\nDate"+str(today) +"\nDay "+str(today.day)+"\nWeekDay "+days[(today.weekday())] 
+#     # weekday = days[(today.weekday())]
+#     mon = "Mon-Fri"
+#     sun = "Sun"
+#     sat = "sat"
+#     week = [mon,mon,mon,mon,mon,sat,sun];
+#     weekday = week[(today.weekday())]
+#     jsonArr = TTRecordModel.getRecordByWeekDay()
+#     return jsonArr;
+
+
+
+
+
+
+
+    
 
 
 # TimeTableRecordModel :- No GET,POST,PUT,DELETE Allowed Here. For GET POST PUT DELETE , go for resource.TTRecord
 class TTRecordModel():
+    listOfHolidays = ["Tue Jan 01 2019", "Tue Jan 15 2019", "Sat Jan 26 2019", "Sun Feb 10 2019", "Mon Mar 04 2019", "Thu Mar 21 2019", "Mon Apr 08 2019", "Sat Apr 13 2019", "Sun Apr 14 2019", "Wed Apr 17 2019", "Fri Apr 19 2019", "Sat May 18 2019", "Wed Jun 05 2019", "Thu Jul 04 2019", "Mon Aug 12 2019", "Thu Aug 15 2019", "Fri Aug 23 2019", "Mon Sep 09 2019", "Tue Sep 10 2019", "Tue Sep 17 2019", "Wed Oct 02 2019", "Sat Oct 05 2019", "Sun Oct 06 2019", "Mon Oct 07 2019", "Tue Oct 08 2019", "Sun Oct 27 2019", "Sat Nov 02 2019", "Sun Nov 10 2019", "Tue Nov 12 2019", "Fri Nov 15 2019", "Wed Dec 25 2019"]
+    listOfHolidays = [datetime.strptime(x,'%a %b %d %Y') for x in listOfHolidays]
+
     def __init__(self,idtimetable, frombit, fromdoranda, fromxavier, fromlalpur, typeofbus, typeofday, busno, isRunning, hasdeparted):
         self.idtimetable = idtimetable
         self.frombit     = str(frombit)     if str(frombit)!="None" else None
@@ -46,13 +70,8 @@ class TTRecordModel():
             DbConn.connection.commit()
             cursor.close()
             DbConn.connection.close()
-            
-            #DbConn.connection._open_connection()
         except:
             return None
-        
-
-
         lst = []
         for x in resultset:
             lst.append(cls(*x).tojson())
@@ -76,6 +95,42 @@ class TTRecordModel():
             return result
         else:
             return None
+
+    @classmethod
+    def getWeekin3Char(cls,dateObj):   
+        mon = "Mon-Fri"
+        sun = "Sun"
+        sat = "sat"
+        if dateObj in cls.listOfHolidays:
+            return sun
+        week = [mon,mon,mon,mon,mon,sat,sun];
+        return week[dateObj.weekday()]
+
+    @classmethod
+    def getRecordByDate_Time_Source(cls,sourceQuery,currdate,curtime):
+        print(currdate);
+        dateobj = datetime.strptime(currdate,"%Y-%m-%d")
+        weekDay  = cls.getWeekin3Char(dateobj)
+        query = sourceQuery
+        if(DbConn.connection.is_connected()==False):
+            DbConn.connection._open_connection()
+        cursor = DbConn.connection.cursor(prepared=True)
+        cursor.execute(query,(curtime,weekDay))
+        resultset = cursor.fetchall()
+        DbConn.connection.commit()
+        cursor.close()
+        DbConn.connection.close()
+
+        if resultset:
+            lst = []
+            for x in resultset:
+                lst.append(cls(*x).tojson())
+            
+            return lst
+        else:
+            return None
+
+
 
     def updateStatus(self):
         try:
