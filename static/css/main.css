@@ -2,9 +2,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background-image: url("../image/BUS.png");
+    background-image: url("../img/School Bus.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 
@@ -80,7 +82,33 @@ body {
     pointer-events: none;
     transition: .5s;
 } */
+.boxx {
+    position: relative;
+    max-width: 600px;
+    left: 50%;
+    transform: translate(-50%, 5%);
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+    border-radius: 5px;
+}
 
+.boxx h2 {
+    padding: 20px;
+    left: 50%;
+    text-align: center;
+    color: #f7497d;
+    font-size: 40px;
+    font-family: sans-serif;
+    text-shadow: 0 0 20px #ff005b;
+}
+.boxx p {
+    padding: 0;
+    text-align: center;
+    color: black;
+    font-size: 22px;
+    font-weight: 20;
+    text-shadow: 0 0 20px #ff005b;
+}
 .box input:focus~label,
 .box input:valid~label {
     top: -14px;
