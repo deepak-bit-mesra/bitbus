@@ -33,6 +33,17 @@ body {
     margin-bottom: 30px;
 }
 
+.box form div .login-label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #999;
+    pointer-events: none;
+    transition: .5s;
+}
+.login-form{
+    padding-top: 30px;
+}
 .box input {
     width: 100%;
     box-sizing: border-box;

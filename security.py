@@ -5,6 +5,8 @@ def authenticate(username,password):
     user = UserModel.find_by_username(username)
     if user and safe_str_cmp(user.password,password):
         return user
+    else:
+        return None
 
 def identify(payload):
     uid = payload['identity']

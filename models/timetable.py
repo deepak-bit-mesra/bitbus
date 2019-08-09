@@ -130,6 +130,35 @@ class TTRecordModel():
         else:
             return None
 
+    @classmethod
+    def getdataByRequestData(cls,requestData):
+        newlist = []
+        if(requestData['source']== "Ranchi") and (requestData['destination']=='BIT'):
+            query = "select * from timetable where fromxavier >= ? and typeofday=? order by fromxavier";
+            pointsource = 'fromxavier'
+            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
+            
+            
+        elif(requestData['source']=='BIT') and (requestData['destination']=='Ranchi'):
+            query = "select * from timetable where frombit >= ? and typeofday=? order by frombit";
+            pointsource = 'frombit'
+            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
+            
+        if lst:
+            for x in lst:
+                if len(x[pointsource]) == 7: # For Setting Up Proper Time in HTML
+                    x[pointsource] = '0'+ x[pointsource]
+                obj = {
+                    'departure':x[pointsource],
+                    'typeofbus':x['typeofbus'],
+                    'idtimetable':x['idtimetable'],
+                    'isRunning':"Yes" if x['isRunning']==1 else "No",
+                    'hasdeparted':"Yes" if x['hasdeparted']==1 else "No"
+                }
+                newlist.append(obj)
+        else:
+            newlist=None
+        return newlist
 
 
     def updateStatus(self):

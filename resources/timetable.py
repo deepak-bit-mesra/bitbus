@@ -74,8 +74,7 @@ class  TodayTimeTable(Resource):
     def post(self):
         try:
             requestData = TodayTimeTable.parser.parse_args()
-            
-            newlist = TodayTimeTable.getdataByRequestData(requestData)
+            newlist = TTRecordModel.getdataByRequestData(requestData)
             if newlist:
                 return newlist,200
             else:
@@ -84,33 +83,5 @@ class  TodayTimeTable(Resource):
             return {"Message":"Bad Request"},500
     
 
-    @classmethod
-    def getdataByRequestData(cls,requestData):
-        newlist = []
-        if(requestData['source']== "Ranchi") and (requestData['destination']=='BIT'):
-            query = "select * from timetable where fromxavier >= ? and typeofday=? order by fromxavier";
-            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
-            pointsource = 'fromxavier'
-            
-        elif(requestData['source']=='BIT') and (requestData['destination']=='Ranchi'):
-            query = "select * from timetable where frombit >= ? and typeofday=? order by frombit";
-            lst = TTRecordModel.getRecordByDate_Time_Source(query,requestData["curdate"],requestData["curtime"])
-            pointsource = 'frombit'
-
-        if lst:
-            for x in lst:
-                if len(x[pointsource]) == 7:
-                    x[pointsource] = '0'+ x[pointsource]
-                obj = {
-                    'departure':x[pointsource],
-                    'typeofbus':x['typeofbus'],
-                    'isRunning':x['isRunning'],
-                    'idtimetable':x['idtimetable'],
-                    'hasdeparted':x['hasdeparted']
-                }
-                newlist.append(obj)
-        else:
-            newlist=None
-        return newlist
-
+    
             

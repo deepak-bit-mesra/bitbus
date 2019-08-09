@@ -10,7 +10,7 @@
         
         <div class="form-group">
             <label for="source">Source</label>
-            <select class="form-control" name="source" id="id-source">
+            <select class="form-control" name="source" ng-model="travel.source" ng-change="changeSource()" id="id-source">
             <option>Ranchi</option>
             <option>BIT</option>
             </select>
@@ -18,7 +18,7 @@
         
         <div class="form-group">
             <label for="destination">Destination</label>
-            <select class="form-control" name="destination" id="id-destination">
+            <select class="form-control" name="destination" ng-model="travel.destination"  ng-change="changeDestination()" id="id-destination">
             <option>BIT</option>
             <option>Ranchi</option>
             </select>
@@ -26,12 +26,12 @@
         
         <div class="form-group">
             <label>Date</label>
-            <input type="date" ng-model="currDate"  class="form-control" id="dt" name="curdate">
+            <input type="date" ng-model="currDate" ng-change="setTime()" class="form-control" id="dt" name="curdate">
         </div>
         <div class="form-group">
             <label>Time</label>
             <!-- <input type="time"  class="form-control" name="curtime" id="curtime"> -->
-            <input type="time" id="exampleInput" name="curtime" ng-model="currTime" format="HH:mm"  required />
+            <input type="time" id="exampleInput"  name="curtime" ng-model="currTime" format="HH:mm"  required />
         
         </div>
         <input type="submit" id="gen-submit"  value="Search Buses">

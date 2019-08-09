@@ -5,41 +5,12 @@
 <div data-role="page">
         <div data-role="header">Some  Image Header ( Released Version 1.0 )</div>
 <div role="main" class="ui-content">
-        
-        <table data-role="table"  id="movie-table" data-mode="reflow" class="result-table ui-responsive table-stroke ui-table ui-table-reflow">
-            <thead>
-                <tr>
-                <th data-priority="1">Departure</th>
-                <th data-priority="2">Bus Type</th>
-                <th data-priority="3">Is Running</th>
-                <th data-priority="4">Has Departed</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for x in newlist %}
-                <tr  style="border: 2px solid">
-                    <th>
-                        <b class="ui-table-cell-label">Departure</b>
-                        <input type="time"  disabled data-clear-btn="true" name="" id="" value="{{x['departure']}}">
-                        <!-- <span>{{ x['departure'] }}</span> -->
-                    </th>
-                    
-                    <td>
-                        <b class="ui-table-cell-label">Type of Bus</b>
-                        <span>{{ x['typeofbus'] }}</span>
-                    </td>
-                    <td>
-                        <b class="ui-table-cell-label">Is Running</b>
-                        <span> {{ x['isRunning'] }}</span>
-                    </td>
-                    <td>
-                        <b class="ui-table-cell-label">Has Departed</b>
-                        <span>{{ x['hasdeparted'] }}</span>
-                    </td>    
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if newlist == None %}
+            {% include "NoBusFound.html" %}
+        {% else %}
+        {%  include "BusFoundTable.html" %}
+            
+        {% endif %}
     </div>
 </div>
 

@@ -446,12 +446,12 @@ const mon = "Mon-Fri";
 const sun = "Sun";
 const sat = "sat";
 const week = [sun,mon,mon,mon,mon,mon,sat];
-
+var globalvariable = null;
 
 
 var app = angular.module('myApp',[]);
 app.controller('myCtrl',function($scope,$http){
-    
+    globalvariable = $scope;
     // let config = {method:"GET",url:"http://127.0.0.1:5000/routine"};
     // $http(config).then(successFunc,errorFunc);
     $scope.RoutineArr = routine.res;
@@ -459,7 +459,11 @@ app.controller('myCtrl',function($scope,$http){
     $scope.currDate = new Date();
     $scope.currTime = $scope.currDate;
     $scope.currTime.setSeconds(0,0);
+
     // setProperTime($scope.RoutineArr);
+    const BIT = "BIT";
+    const Ranchi = "Ranchi"
+    $scope.travel = {source:BIT,destination:Ranchi};
 
 
 
@@ -469,22 +473,41 @@ app.controller('myCtrl',function($scope,$http){
 
 
 
-
-    function successFunc(response){
-        console.log("Success response = ");
-        $scope.RoutineArr = response.data.res;
-        debugger;
-        console.log(response);
-    }
-    function errorFunc(response){
-        console.log("Error response = ");
-        debugger;
-        console.log(response);
-    }
+    // function successFunc(response){
+    //     console.log("Success response = ");
+    //     $scope.RoutineArr = response.data.res;
+    //     debugger;
+    //     console.log(response);
+    // }
+    // function errorFunc(response){
+    //     console.log("Error response = ");
+    //     debugger;
+    //     console.log(response);
+    // }
     
     function fetchRecord(weekday,source){
         let arr = jQuery.grep(routine.res,function(element,index){return element.typeofday=== weekday;});
     }
+    
+    $scope.changeSource = function(ev){
+
+        if($scope.travel.source==BIT)
+            $scope.travel.destination = Ranchi
+        if($scope.travel.source==Ranchi)
+            $scope.travel.destination = BIT
+    }
+
+    $scope.changeDestination = function(){
+        if($scope.travel.destination==BIT)
+            $scope.travel.source = Ranchi
+        if($scope.travel.destination==Ranchi)
+            $scope.travel.source = BIT
+    }
+
+    $scope.setTime = function(){
+        $scope.currTime.setMinutes(00,00,00)
+    }
+
     $scope.searchBuses = function(){
         console.log("click");
         let searchform = document.forms.searchbusform;
@@ -509,7 +532,25 @@ app.controller('myCtrl',function($scope,$http){
             // debugger;
         })
     }
+    $scope.validatelogin = function(){
+        let config = {
+            method:"POST",
+            url:"/auth",
+            headers:{"Content-Type":"application/json"},
+            data:{
+                "username":$scope.username,
+                "password":$scope.password
+            }
+        };
+        $http(config).then(succLog,errorLog);
 
+    }
+    function succLog(response){
+        console.log("Login")
+    }
+    function errorLog(response){
+        console.log("failed Logn=in")
+    }
 });
 
 
