@@ -35,8 +35,12 @@ class UserModel:
         DbConn.connection.close()
 
         if resultset:
+            
             user = cls(*resultset)
-            print(user)
+            try:
+                print(user)
+            except:
+                print("an Error Occured While Printing")
         else:
             user = None
         return user
