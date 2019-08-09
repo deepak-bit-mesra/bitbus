@@ -5,10 +5,22 @@ from db import DbConn
 
 class UserModel:
     def __init__(self,uid,username,password):
-        self.id = uid
-        self.username = username.decode() if isinstance(username,bytearray) else None
-        self.password = password.decode() if isinstance(password,bytearray) else None
-    
+        print("user = ",username)
+        
+        if ((username is not None) and (password is not None)):
+            self.id = uid
+            if isinstance(username,bytearray):
+                self.username = username.decode()
+            else:
+                self.username = username
+            if isinstance(password,bytearray):
+                self.password = password.decode()
+            else:
+                self.password = password
+        # self.username = username.decode() if isinstance(username,bytearray) else None
+        # self.password = password.decode() if isinstance(password,bytearray) else None
+        else:
+            return None
     def __str__(self):
         _str= "Username = "+self.username+"\nPassword = "+self.password
         return _str
@@ -35,12 +47,8 @@ class UserModel:
         DbConn.connection.close()
 
         if resultset:
-            
             user = cls(*resultset)
-            try:
-                print(user)
-            except:
-                print("an Error Occured While Printing")
+            print(user)
         else:
             user = None
         return user
