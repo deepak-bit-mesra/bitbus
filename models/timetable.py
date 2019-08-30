@@ -52,9 +52,10 @@ class TTRecordModel():
             'typeofbus' : self.typeofbus,
             'typeofday' : self.typeofday,
             'busno' : self.busno,
-            'isRunning' : self.isRunning,
-            'hasdeparted' : self.hasdeparted
+             
         }
+        jsonRecord['isRunning'] = "Yes" if bytearray(b'\x00') == self.isRunning else "No" 
+        jsonRecord['hasdeparted'] = "Yes" if bytearray(b'\x00') == self.hasdeparted else "No"
         return jsonRecord
 
 

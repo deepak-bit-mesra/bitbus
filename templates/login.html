@@ -4,24 +4,30 @@
 
 <div class="box">
     <h2>Login</h2>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <form id="id-login-form" class="login-form" method="POST" action="/login">
         <div>
-            <input type="text" name="username" ng-model="username"  required="">
-            <label class="login-label" >Username</label>
+            <input type="text" name="username" ng-model="username" required="">
+            <label class="login-label">Username</label>
         </div>
         <div>
-            <input type="password" ng-model="password"  name="password" required="">
+            <input type="password" ng-model="password" name="password" required="">
             <label class="login-label">Password</label>
         </div>
         <div>
-            
-        
-        <input type="submit" name=""  value="Login">
-        <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-          </label>
+            <input type="submit" name="" value="Login">
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
     </form>
-
 </div>
 
 

@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,request,url_for,session
+from flask import Flask,render_template,redirect,request,url_for,session,flash
 from flask_restful import Api,Resource
 from flask_jwt import JWT,jwt_required
 
@@ -35,8 +35,10 @@ def result():
 
 @app.route('/login')
 def login():
+
     if 'username' in session:
         return redirect(url_for('admonconsile'))
+    
     return render_template('login.html')
 
 @app.route('/login' ,methods=['POST'])
@@ -51,6 +53,7 @@ def login_post():
         session['username'] = user.username;
         return redirect(url_for('admonconsile'))
     else:
+        flash('Username or Password Incorrect')
         return redirect(url_for('login'))
     
 
