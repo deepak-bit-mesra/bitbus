@@ -38,10 +38,10 @@ class TTRecordResource(Resource):
         record = TTRecordModel.getRecordById(int(idtimetable))
         if record:
             reqestData = TTRecordResource.parser.parse_args()
-            record.isRunning = 1 if reqestData['isRunning']=='1' else 0
-            record.hasdeparted = 1 if reqestData['hasdeparted']=='1' else 0
-            record = record.updateStatus()
-            if record:
+            record.isRunning = 1 if reqestData['isRunning']=='True' else 0
+            record.hasdeparted = 1 if reqestData['hasdeparted']=='True' else 0
+            done = record.updateStatus()
+            if done:
                 return {'Message':"Item Updated"} , 200
             else:
                 return {"Message":"Internal Server Error"},500

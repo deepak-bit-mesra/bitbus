@@ -2,7 +2,7 @@
 const listOfHolidays = ["Tue Jan 01 2019", "Tue Jan 15 2019", "Sat Jan 26 2019", "Sun Feb 10 2019", "Mon Mar 04 2019", "Thu Mar 21 2019", "Mon Apr 08 2019", "Sat Apr 13 2019", "Sun Apr 14 2019", "Wed Apr 17 2019", "Fri Apr 19 2019", "Sat May 18 2019", "Wed Jun 05 2019", "Thu Jul 04 2019", "Mon Aug 12 2019", "Thu Aug 15 2019", "Fri Aug 23 2019", "Mon Sep 09 2019", "Tue Sep 10 2019", "Tue Sep 17 2019", "Wed Oct 02 2019", "Sat Oct 05 2019", "Sun Oct 06 2019", "Mon Oct 07 2019", "Tue Oct 08 2019", "Sun Oct 27 2019", "Sat Nov 02 2019", "Sun Nov 10 2019", "Tue Nov 12 2019", "Fri Nov 15 2019", "Wed Dec 25 2019"];
 const mon = "Mon-Fri";
 const sun = "Sun";
-const sat = "sat";
+const sat = "Sat";
 const week = [sun,mon,mon,mon,mon,mon,sat];
 var globalvariable = null;
 
@@ -49,17 +49,18 @@ app.controller('myCtrl',function($scope,$http){
         if($scope.travel.destination==Ranchi)
             $scope.travel.source = BIT
     }
+    
     $scope.adminBusSearch = function(ev){
         console.log("Source= ",$scope.admin.source);
         console.log("typeofbus = ",$scope.admin.typeofbus);
-        $scope.adminResults = $scope.filter($scope.admin.source,$scope.admin.typeofbus,"Mon-Fri");
+        $scope.adminResults = $scope.filter($scope.admin.source,$scope.admin.typeofbus,getWeekDay(null,new Date()));
         debugger;
     }
 
     $scope.setTime = function(){
         $scope.currTime.setMinutes(00,00,00)
     }
-    
+
 
     
 
@@ -70,7 +71,12 @@ app.controller('myCtrl',function($scope,$http){
         $scope.routine = null;
         $http(config).then(function(response){
             globalvariable.routine = response.data.res;
-            $scope.adminResults = $scope.filter($scope.admin.source,$scope.admin.typeofbus,"Mon-Fri");
+
+
+            //Set Proper Week Day
+
+
+            $scope.adminResults = $scope.filter($scope.admin.source,$scope.admin.typeofbus,getWeekDay(null,new Date()));
             console.group();
             console.log("suc",response);
             console.table(globalvariable.routine);
@@ -89,7 +95,7 @@ app.controller('myCtrl',function($scope,$http){
             if( x[source]!=null && (x["typeofbus"]==typeofbus ||typeofbus=="All") && x["typeofday"]==typeofday){ 
                 obj.departure= x[source];
                 obj.typeofbus = x["typeofbus"];
-                obj.isRunning = x["isRunning"];
+                obj.isCancelled = !x["isRunning"];//Do Not Ignore This
                 obj.hasDeparted = x["hasdeparted"];
                 obj.idtimetable = x["idtimetable"];
                 obj.typeofday = x["typeofday"]
@@ -99,37 +105,35 @@ app.controller('myCtrl',function($scope,$http){
         return arr;
     }
 
-    $scope.isCancelled = function(state){
-        if(state=="Yes")return "No";
-        if(state=="No")return "Yes";
-        else return "-";
+    $scope.setStatus = function(isCancelled,hasDeparted,idtimetable){
+        let config = {
+            url:"/ttRecordResource/"+idtimetable,
+            method:"PUT",
+            headers:{"Content-Type":"application/json"},
+            data:{
+                "idtimetable": idtimetable,
+                "isRunning": !isCancelled,
+                "hasdeparted": hasDeparted
+            }
+        }
+        debugger;
+        $http(config).then(function (response) {
+            console.log("response = ",response);
+            debugger;
+        },
+        function(response){
+            console.log(" fail response = ",response);
+            debugger;
+        });
     }
 
+    
 
-    function succLog(response){
-        console.log("Login")
-    }
-    function errorLog(response){
-        console.log("failed Logn=in")
-    }
+
+    
 });
 
-// var filter = function(source,typeofbus,typeofday){
-//     let arr=[];
-//     for(x of globalvariable.routine){
-//         var obj={};
-//         if( x[source]!=null && (x["typeofbus"]==typeofbus ||typeofbus=="All") && x["typeofday"]==typeofday){ 
-//             obj.depart= x[source];
-//             obj.typeofbus = x["typeofbus"];
-//             obj.isRuning = x["isRunning"];
-//             obj.hasDeparted = x["hasdeparted"];
-// 			obj.idtimetable = x["idtimetable"];
-// 			obj.typeofday = x["typeofday"]
-//             arr.push(obj);
-//         }
-//     }
-// 	return arr;
-// }
+
 
 function setProperTime(arr){//This FUnction is to Feed Data in HTML Input type= Date inn proper format
     for(i in arr){
@@ -143,16 +147,26 @@ function setProperTime(arr){//This FUnction is to Feed Data in HTML Input type= 
     }
 }
 
-function getWeekDay(idofDatePicker){//Get weekDay from Current Date and Holiday
-    let dtVal = document.getElementById(idofDatePicker).value;
-    if(listOfHolidays.indexOf(dtVal)!= -1){
-        return "Sun";
+function getWeekDay(idofDatePicker,dateObject){//Get weekDay from Current Date and Holiday
+    if(idofDatePicker!=null) {   
+        let dtVal = document.getElementById(idofDatePicker).value;
+        if(listOfHolidays.indexOf(dtVal)!= -1)
+            return "Sun";//Yes Its Holiday
+        dt = new Date(dtVal);
+        return week[dt.getDay()];
     }
-    dt = new Date(dtVal);
 
-    
-	let week = ["Sun","Mon-Fri","Mon-Fri","Mon-Fri","Mon-Fri","Mon-Fri","Sat"];
-	return week[dt.getDay()];
+    else if(dateObject!=null){
+        let listOfHolidayss = listOfHolidays.map(x=> (new Date(x)).getTime());
+        dateObject.setHours(0,0,0,0);//Since the List has hours as 0;
+        if (listOfHolidayss.indexOf(dateObject.getTime()) != -1)
+            return sun;//Holiday from calendar
+        return week[dateObject.getDay()];
+        
+    }
+}
+const compareDate=(date1,date2)=>{
+    return date1.getTime() === date2.getTime();
 }
 function getDate(){
     var today = new Date();
