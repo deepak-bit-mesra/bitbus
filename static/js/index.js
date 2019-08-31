@@ -106,6 +106,8 @@ app.controller('myCtrl',function($scope,$http){
     }
 
     $scope.setStatus = function(isCancelled,hasDeparted,idtimetable){
+        $scope.disable_hasDeparted = true;
+        $scope.disable_isCancelled = true;
         let config = {
             url:"/ttRecordResource/"+idtimetable,
             method:"PUT",
@@ -118,11 +120,15 @@ app.controller('myCtrl',function($scope,$http){
         }
         debugger;
         $http(config).then(function (response) {
+            $scope.disable_hasDeparted = false;
+            $scope.disable_isCancelled = false;
             console.log("response = ",response);
             debugger;
         },
         function(response){
             console.log(" fail response = ",response);
+            $scope.disable_hasDeparted = false;
+            $scope.disable_isCancelled = false;
             debugger;
         });
     }

@@ -67,7 +67,7 @@
                             <div class="col-6">
                                 <span ng-bind="x.hasDeparted"></span>
                                 <label class="switch">
-                                    <input type="checkbox"  ng-model="x.hasDeparted" ng-change="setStatus(x.isCancelled,x.hasDeparted,x.idtimetable)">
+                                    <input type="checkbox" ng-disabled="disable_hasDeparted" ng-model="x.hasDeparted" ng-change="setStatus(x.isCancelled,x.hasDeparted,x.idtimetable)">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="col-6">
                                 <span ng-bind="x.isCancelled"></span>
                                 <label class="switch">
-                                    <input type="checkbox" ng-model="x.isCancelled" ng-change="setStatus(x.isCancelled,x.hasDeparted,x.idtimetable)">
+                                    <input type="checkbox" ng-disabled="disable_isCancelled" ng-model="x.isCancelled" ng-change="setStatus(x.isCancelled,x.hasDeparted,x.idtimetable)">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
