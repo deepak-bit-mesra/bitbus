@@ -1,4 +1,4 @@
-from flask import Flask,render_template,jsonify,make_response,redirect,url_for
+from flask import Flask,render_template,jsonify,make_response,redirect,url_for,session
 from flask_restful import Api,Resource,reqparse
 from models.timetable import TTRecordModel
 from flask_jwt import JWT,jwt_required
@@ -30,13 +30,16 @@ class TTRecordResource(Resource):
         else:
             return {'Message':'Record Not Found. Please try Another Id'},404
     
-    @jwt_required()
+    # @jwt_required()
     def put(self,idtimetable):
+        # if 'username' not in session:
+        #     return redirect(url_for('login'))
+
         record = TTRecordModel.getRecordById(int(idtimetable))
         if record:
             reqestData = TTRecordResource.parser.parse_args()
-            record.isRunning = reqestData['isRunning']
-            record.hasdeparted = reqestData['hasdeparted']
+            record.isRunning = 1 if reqestData['isRunning']=='1' else 0
+            record.hasdeparted = 1 if reqestData['hasdeparted']=='1' else 0
             record = record.updateStatus()
             if record:
                 return {'Message':"Item Updated"} , 200
