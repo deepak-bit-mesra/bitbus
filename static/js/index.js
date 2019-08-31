@@ -59,6 +59,7 @@ app.controller('myCtrl',function($scope,$http){
     $scope.setTime = function(){
         $scope.currTime.setMinutes(00,00,00)
     }
+    
 
     
 
