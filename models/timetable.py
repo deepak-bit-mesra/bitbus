@@ -57,8 +57,8 @@ class TTRecordModel():
             'busno' : self.busno,
              
         }
-        jsonRecord['isRunning'] = True if bytearray(b'\x01') == self.isRunning else False
-        jsonRecord['hasdeparted'] = True if bytearray(b'\x01') == self.hasdeparted else False
+        jsonRecord['isRunning'] = True if(bytearray(b'\x01') == self.isRunning or self.isRunning==1) else False
+        jsonRecord['hasdeparted'] = True if(bytearray(b'\x01') == self.hasdeparted  or self.hasdeparted==1) else False
         return jsonRecord
 
 
