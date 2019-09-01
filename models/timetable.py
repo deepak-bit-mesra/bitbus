@@ -175,12 +175,12 @@ class TTRecordModel():
             DbConn.connection.commit()
             cursor.close()
             DbConn.connection.close()
-            print("before Updating isRunning = ",self.isRunning,"\nhasdeparted = ",self.hasdeparted)
-            
-            record = TTRecordModel.getRecordById(self.idtimetable)
-            print("After Updating Status ");
-            print(record)
-            print("closing cursor")
+
+            # print("before Updating isRunning = ",self.isRunning,"\nhasdeparted = ",self.hasdeparted)
+            # record = TTRecordModel.getRecordById(self.idtimetable)
+            # print("After Updating Status ");
+            # print(record)
+            # print("closing cursor")
             
             
             print("updated")
