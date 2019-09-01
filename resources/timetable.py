@@ -31,7 +31,7 @@ class TTRecordResource(Resource):
             return {'Message':'Record Not Found. Please try Another Id'},404
     
     # @jwt_required()
-    def put(self,idtimetable):
+    def post(self,idtimetable):
         # if 'username' not in session:
         #     return redirect(url_for('login'))
 

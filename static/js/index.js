@@ -71,11 +71,6 @@ app.controller('myCtrl',function($scope,$http){
         $scope.routine = null;
         $http(config).then(function(response){
             globalvariable.routine = response.data.res;
-
-
-            //Set Proper Week Day
-
-
             $scope.adminResults = $scope.filter($scope.admin.source,$scope.admin.typeofbus,getWeekDay(null,new Date()));
             console.group();
             console.log("suc",response);
@@ -110,7 +105,7 @@ app.controller('myCtrl',function($scope,$http){
         $scope.disable_isCancelled = true;
         let config = {
             url:"/ttRecordResource/"+idtimetable,
-            method:"PUT",
+            method:"POST",
             headers:{"Content-Type":"application/json"},
             data:{
                 "idtimetable": idtimetable,
