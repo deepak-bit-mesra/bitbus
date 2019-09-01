@@ -42,6 +42,8 @@ class TTRecordResource(Resource):
             record.hasdeparted = 1 if reqestData['hasdeparted']=='True' else 0
             done = record.updateStatus()
             if done:
+                record = TTRecordModel.getRecordById(int(idtimetable))
+                
                 return {'Message':"Item Updated"} , 200
             else:
                 return {"Message":"Internal Server Error"},500

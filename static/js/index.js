@@ -100,17 +100,18 @@ app.controller('myCtrl',function($scope,$http){
         return arr;
     }
 
-    $scope.setStatus = function(isCancelled,hasDeparted,idtimetable){
+    $scope.setStatus = function(x){
         $scope.disable_hasDeparted = true;
         $scope.disable_isCancelled = true;
         let config = {
-            url:"/ttRecordResource/"+idtimetable,
+            url:"/ttRecordResource/"+x.idtimetable,
             method:"POST",
             headers:{"Content-Type":"application/json"},
             data:{
-                "idtimetable": idtimetable,
-                "isRunning": !isCancelled,
-                "hasdeparted": hasDeparted
+                "idtimetable": x.idtimetable,
+                "isRunning": !x.isCancelled,
+                "hasdeparted": x.hasDeparted,
+                "departure" : x.departure
             }
         }
         debugger;

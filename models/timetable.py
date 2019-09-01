@@ -41,6 +41,9 @@ class TTRecordModel():
         self.isRunning = isRunning
         self.hasdeparted= hasdeparted
 
+    def __str__(self):
+        x = "id ="+(str)(self.idtimetable)+"\nfrombit ="+(str)(self.frombit)+"\nfromdoranda="+(str)(self.fromdoranda)+"\nfromxavier="+(str)(self.fromxavier)+"\nfromlalpur="+(str)(self.fromlalpur)+"\ntypeofbus="+(str)(self.typeofbus)+"\ntypeofday="+(str)(self.typeofday)+"\nhasDeparted="+(str)(self.hasdeparted)+"\nisRunning="+(str)(self.isRunning);
+        return x;
 
     def tojson(self):
         jsonRecord = {
@@ -170,6 +173,11 @@ class TTRecordModel():
             cursor = DbConn.connection.cursor(prepared=True)
             cursor.execute(query,(self.hasdeparted,self.isRunning,self.idtimetable))
             DbConn.connection.commit()
+            print("before Updating isRunning = ",self.isRunning,"\nhasdeparted = ",self.hasdeparted)
+            
+            record = TTRecordModel.getRecordById(self.idtimetable)
+            print("After Updating Status ");
+            print(record)
             cursor.close()
             DbConn.connection.close()
             print("updated")
