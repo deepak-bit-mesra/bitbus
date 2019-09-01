@@ -180,7 +180,10 @@ class TTRecordModel():
             # print(record)
             print("closing cursor")
             cursor.close()
-            printing("closing connection")
+            # print("commiting cursor ")
+            # DbConn.connection.commit()
+            print("closing connection")
+            
             DbConn.connection.close()
             print("updated")
             return True
