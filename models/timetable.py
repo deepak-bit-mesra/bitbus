@@ -173,18 +173,16 @@ class TTRecordModel():
             cursor = DbConn.connection.cursor(prepared=True)
             cursor.execute(query,(self.hasdeparted,self.isRunning,self.idtimetable))
             DbConn.connection.commit()
+            cursor.close()
+            DbConn.connection.close()
             print("before Updating isRunning = ",self.isRunning,"\nhasdeparted = ",self.hasdeparted)
             
             record = TTRecordModel.getRecordById(self.idtimetable)
             print("After Updating Status ");
             print(record)
             print("closing cursor")
-            # cursor.close()
-            # print("commiting cursor ")
-            # DbConn.connection.commit()
-            print("closing connection")
             
-            DbConn.connection.close()
+            
             print("updated")
             return True
         except Exception as e:
