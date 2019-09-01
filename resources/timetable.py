@@ -46,6 +46,8 @@ class TTRecordResource(Resource):
                 print("After Updating Status  in POst Method");
                 print(record)
                 print("Returning Item Updated")
+                recjson = record.tojson();
+                print("recjson id = ",recjson["idtimetable"],"recjson hasdeparted = ",recjson["hasdeparted"])
                 return {'Message':"Item Updated","record":record.tojson()} , 200
             else:
                 return {"Message":"Internal Server Error"},500
