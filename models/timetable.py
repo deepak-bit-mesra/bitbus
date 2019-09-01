@@ -179,7 +179,7 @@ class TTRecordModel():
             print("After Updating Status ");
             print(record)
             print("closing cursor")
-            cursor.close()
+            # cursor.close()
             # print("commiting cursor ")
             # DbConn.connection.commit()
             print("closing connection")
