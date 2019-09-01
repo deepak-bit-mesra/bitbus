@@ -182,7 +182,8 @@ class TTRecordModel():
             DbConn.connection.close()
             print("updated")
             return True
-        except:
+        except Exception as e:
             print("An Error Occured")
+            print(e)
             return False
         
