@@ -43,7 +43,9 @@ class TTRecordResource(Resource):
             done = record.updateStatus()
             if done:
                 record = TTRecordModel.getRecordById(int(idtimetable))
-                
+                print("After Updating Status  in POst Method");
+                print(record)
+                print("Returning Item Updated")
                 return {'Message':"Item Updated"} , 200
             else:
                 return {"Message":"Internal Server Error"},500
