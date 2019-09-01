@@ -46,7 +46,7 @@ class TTRecordResource(Resource):
                 print("After Updating Status  in POst Method");
                 print(record)
                 print("Returning Item Updated")
-                return {'Message':"Item Updated"} , 200
+                return {'Message':"Item Updated","record":record.tojson()} , 200
             else:
                 return {"Message":"Internal Server Error"},500
         else:
