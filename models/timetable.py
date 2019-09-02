@@ -2,26 +2,8 @@ import mysql.connector
 from db import DbConn
 from datetime import date,datetime,time
 
-# def loadHome():
-#     today = date.today()
-#     # days  =["Monday","Tuesday","Wednesday","Thrusday","Friday","Saturday","Sunday"]
-#     # datestr = "\nDate"+str(today) +"\nDay "+str(today.day)+"\nWeekDay "+days[(today.weekday())] 
-#     # weekday = days[(today.weekday())]
-#     mon = "Mon-Fri"
-#     sun = "Sun"
-#     sat = "sat"
-#     week = [mon,mon,mon,mon,mon,sat,sun];
-#     weekday = week[(today.weekday())]
-#     jsonArr = TTRecordModel.getRecordByWeekDay()
-#     return jsonArr;
 
 
-
-
-
-
-
-    
 
 
 # TimeTableRecordModel :- No GET,POST,PUT,DELETE Allowed Here. For GET POST PUT DELETE , go for resource.TTRecord
@@ -175,18 +157,34 @@ class TTRecordModel():
             DbConn.connection.commit()
             cursor.close()
             DbConn.connection.close()
-
-            # print("before Updating isRunning = ",self.isRunning,"\nhasdeparted = ",self.hasdeparted)
-            # record = TTRecordModel.getRecordById(self.idtimetable)
-            # print("After Updating Status ");
-            # print(record)
-            # print("closing cursor")
-            
-            
             print("updated")
             return True
         except Exception as e:
-            print("An Error Occured")
+            print("Following Error Occured in Updating")
             print(e)
             return False
+
+    @classmethod
+    def cronjobResetValues(cls):
+        try:
+            query = "UPDATE timetable SET hasdeparted=? , isRunning=?"
+            if(DbConn.connection.is_connected()==False):
+                DbConn.connection._open_connection()
+            cursor = DbConn.connection.cursor(prepared=True)
+            cursor.execute(query,(0,1))
+
+            DbConn.connection.commit()
+            cursor.close()
+            DbConn.connection.close()
+
+            print("Reset Done by CRON ")
+            return True
+        except Exception as e:
+            print("Following Error Occured in Reseting By CRON")
+            print(e)
+            return False
+
+    @classmethod
+    def tryout(cls):
+        print("Hello")
         
