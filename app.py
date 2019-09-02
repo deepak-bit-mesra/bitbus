@@ -32,6 +32,7 @@ def result():
     if(request.method=='POST'):
         requestData = request.form
         lst = TTRecordModel.getdataByRequestData(requestData)
+        
     return render_template('results.html',newlist= lst)
 
 @app.route('/login')

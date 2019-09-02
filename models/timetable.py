@@ -139,6 +139,7 @@ class TTRecordModel():
                     'typeofbus':x['typeofbus'],
                     'idtimetable':x['idtimetable'],
                     'isRunning':"Yes" if x['isRunning']==1 else "No",
+                    'isCancelled':"No" if x['isRunning']==1 else "Yes",
                     'hasdeparted':"Yes" if x['hasdeparted']==1 else "No"
                 }
                 newlist.append(obj)
