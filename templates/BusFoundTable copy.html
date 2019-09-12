@@ -1,0 +1,34 @@
+<table data-role="table" id="movie-table" data-mode="reflow"
+    class="result-table ui-responsive table-stroke ui-table ui-table-reflow">
+    <thead>
+        <tr>
+            <th data-priority="1">Departure</th>
+            <th data-priority="2">Bus Type</th>
+            <th data-priority="3">Is Running</th>
+            <th data-priority="4">Has Departed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in newlist %}
+        <tr style="border: 2px solid">
+            <td>
+                <b class="ui-table-cell-label">Departure</b>
+                <input type="time" disabled data-clear-btn="true" name="" id="" value="{{x['departure']}}">
+            </td>
+
+            <td>
+                <b class="ui-table-cell-label">Type of Bus</b>
+                <span>{{ x['typeofbus'] }}</span>
+            </td>
+            <td>
+                <b class="ui-table-cell-label">Cancelled</b>
+                <span >{{x['isCancelled']}}</span>
+            </td>
+            <td>
+                <b class="ui-table-cell-label">Departed</b>
+                <span>{{ x['hasdeparted'] }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,34 +1,69 @@
-<table data-role="table" id="movie-table" data-mode="reflow"
-    class="result-table ui-responsive table-stroke ui-table ui-table-reflow">
-    <thead>
-        <tr>
-            <th data-priority="1">Departure</th>
-            <th data-priority="2">Bus Type</th>
-            <th data-priority="3">Is Running</th>
-            <th data-priority="4">Has Departed</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for x in newlist %}
-        <tr style="border: 2px solid">
-            <td>
-                <b class="ui-table-cell-label">Departure</b>
-                <input type="time" disabled data-clear-btn="true" name="" id="" value="{{x['departure']}}">
-            </td>
+<div class="container">
+    <h1 style="text-align:center">BIT BUSES</h1>
+    <div class="tablet-responsive-vertical">
+        <table class="tablet tablet-bordered tablet-striped tablet-hover tablet-mc-red">
+            
+            <thead>
+                <tr>
+                    <th>Departure</th>
+                    <th>Bus Type</th>
+                    <th>Cancelled</th>
+                    <th>Departed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in newlist %}
+                <tr>
+                    <td data-title="Departure">{{x['departure']}}</td>
+                    <td data-title="Bus Type"> {{ x['typeofbus'] }}</td>
+                    <td data-title="Cancelled">{{x['isCancelled']}}</td>
+                    <td data-title="Departed">{{ x['hasdeparted'] }}</td>
+                </tr>
 
-            <td>
-                <b class="ui-table-cell-label">Type of Bus</b>
-                <span>{{ x['typeofbus'] }}</span>
-            </td>
-            <td>
-                <b class="ui-table-cell-label">Cancelled</b>
-                <span >{{x['isCancelled']}}</span>
-            </td>
-            <td>
-                <b class="ui-table-cell-label">Departed</b>
-                <span>{{ x['hasdeparted'] }}</span>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <!-- <tr>
+
+                    <td data-title="Departure">05:10 PM</td>
+                    <td data-title="Bus Type">Student</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr>
+
+                <tr>
+                    <td data-title="Departure">06:00 PM</td>
+                    <td data-title="Bus Type">Student</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr>
+
+                <tr>
+                    <td data-title="Departure">06:30 PM</td>
+                    <td data-title="Bus Type">Student</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr>
+
+                <tr>
+                    <td data-title="Departure">07:00 PM</td>
+                    <td data-title="Bus Type">Staff</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr>
+
+                <tr>
+                    <td data-title="Departure">07:00 PM</td>
+                    <td data-title="Bus Type">Student</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr>
+
+                <tr>
+                    <td data-title="Departure">07:30 PM</td>
+                    <td data-title="Bus Type">Staff</td>
+                    <td data-title="Is Running">No</td>
+                    <td data-title="Has Departed">No</td>
+                </tr> -->
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
